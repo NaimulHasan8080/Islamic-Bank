@@ -37,7 +37,7 @@
       <div class="col-md-4">
         <div class=" balance status">
           <h5>Balance</h5>
-        <h2>$1240</h2>
+        <h2>$ <span id="balance">1240</span> </h2>
         </div>
       </div>
      </div>
@@ -47,7 +47,7 @@
           <h4>Deposit</h4>
         <input id="depositAmount" type="tel" placeholder="$ amount you want to Deposit" class="form-control">
         <br>
-        <button id="deposit-btn" class="btn btn-success">Deposit</button>
+        <button id="addDeposit" class="btn btn-success">Deposit</button>
         </div>
       </div>
       <div class="col-md-6">
@@ -73,29 +73,37 @@
         transactionArea.style.display = "block"
       })
       // deposit button event handler
-          const depositBtn = document.getElementById("deposit-btn");
+          const depositBtn = document.getElementById("addDeposit");
           depositBtn.addEventListener("click", function(){
-          const depositAmount = document.getElementById("depositAmount").Value
-          const depositNumber = parseFloat(depositAmount);
+         const depositNumber = getInputNumber("depositAmount")
 
-          const currentDeposit = document.getElementById("currentDeposit").innerText
-          const currentDepositNumber = parseInt(currentDeposit);
-          const totalDeposit = currentDepositNumber + depositNumber;
-          document.getElementById("currentDeposit").innerText = totalDeposit;
-          document.getElementById("depositAmount").Value = ""
+          updatespantext("balance", depositNumber);
+          updatespantext("currentDeposit", depositNumber);
+          document.getElementById("depositAmount").value = "";
       })
+      
+      
       // withdraw button event handler
         const withdrawBtnPress = document.getElementById("withdrawBtn");
         withdrawBtnPress.addEventListener("click", function(){
-        const withdrawAmount = document.getElementById("withdrawAmount").Value;
-        const WithdrawNumber = parseFloat(withdrawAmount);
-
-        const currentWithdraw = document.getElementById("currentWithdraw").innerText;
-        const currentWithdrawNumber = parseFloat(currentWithdraw);
-        const totalWithdraw = currentWithdrawNumber + WithdrawNumber;
-        document.getElementById("currentWithdraw").innerText = totalWithdraw
-
+        const withdrawNumber = getInputNumber("withdrawAmount")
+        
+        updatespantext("currentWithdraw", withdrawNumber);
+        updatespantext("balance", -1 * withdrawNumber)
+        document.getElementById("withdrawAmount").value = ""
       })
+
+      function getInputNumber(id) {
+        const withdrawAmount = document.getElementById(id).value;
+        const withdrawNumber = parseFloat(withdrawAmount);
+        return withdrawNumber;
+      }
+      function updatespantext(id, depositNumber) {
+        const balance = document.getElementById(id).innerText;
+            const balanceNumber = parseFloat(balance);
+            const totalBalance = balanceNumber + depositNumber;
+            document.getElementById(id).innerText = totalBalance
+      }
 
     </script>
 </body>
